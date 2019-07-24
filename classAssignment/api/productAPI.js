@@ -24,5 +24,12 @@ server.post('/search',(req,res)=>{
     }
 })
 
+server.post('/update',(req,res)=>{
+    const updateProduct = productObj.updateProduct(req.body)
+    res.status(200).json({
+        Products: updateProduct
+    })
+})
+
 
 module.exports.productRoute = server

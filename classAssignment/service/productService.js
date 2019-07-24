@@ -16,6 +16,16 @@ class Product {
              return p.name == product.name
          })
      }
+     updateProduct(product) {
+        var i =0
+        this.productDatabase.forEach(prod=>{
+            if(prod.name==product.name) {
+                this.productDatabase[i] = product
+            }
+            i++
+        })
+        this.productDatabase
+    }
 
 }
 
