@@ -9,15 +9,32 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
      <title>Product Cart</title>
     <style> 
+      .jumbotron {
+      background: none;
+      color:white
+      } 
+      .container {
+          padding-left: 39%
+      }
+      body {
+          background: url('https://www.gemius.com/files/PL/Fotolia_70869411_Subscription_Monthly_M.jpg')
+      }
       #showProduct {
           /* background-image: url('https://docs.microsoft.com/en-us/windows/uwp/design/style/images/icons/icon-shopping-cart.svg'); */
-          background: url('https://docs.microsoft.com/en-us/windows/uwp/design/style/images/icons/icon-shopping-cart.svg') no-repeat top left;
+          /* https://docs.microsoft.com/en-us/windows/uwp/design/style/images/icons/icon-shopping-cart.svg */
+          background: url('https://cdn.dribbble.com/users/1180825/screenshots/2965077/daily-ui-058.gif') no-repeat top left;
           background-position: inherit;
           background-size: cover;
           border: none;
           padding: 2px 3px;
           length: 300px;
           width: 90px;
+      }
+      table,div {
+          color: white
+      }
+      table,tr,td,th {
+          border: 2px solid white
       }
     </style>
 </head>
@@ -37,10 +54,10 @@
         </div>   
         <div id="addToCart">
                 <input type="button" id="addProduct" class="btn btn-info" value="Add to Cart " >
-        </div>
+        </div> <br>
         <div id="showCart">
-                <input type="button" id="showProduct" class="" value=" " >
-        </div>
+                <input type="button" id="showProduct" class="btn btn-primary btn-lg" value=" " style="color: black" >
+        </div> <br>
         <div id="showCartTable">
 
         </div> 
@@ -48,9 +65,10 @@
 
         </div> 
         <div id="Payment"> 
-                <input type="button" id="pay" value="Payment">
+                <input type="button" id="pay" class="btn btn-success" value="Payment">
         </div>
     </div>   
+
 </body>
 <script> 
        document.getElementById('searchItem').addEventListener('click',searchProduct)
@@ -92,12 +110,21 @@
            else { 
             let grandTotal = parseInt(document.getElementById('grandTotal').innerText) 
             console.log(grandTotal)
-            if(op =='INC') {
-                grandTotal = grandTotal+basePrice
-            }
+            if(quantity==0) {} 
             else {
+                 if(op =='INC') { 
+                grandTotal = grandTotal+basePrice
+                  }
+               else {
                 grandTotal = grandTotal-basePrice
             }
+            }
+            // if(op =='INC') { 
+            //     grandTotal = grandTotal+basePrice
+            // }
+            // else {
+            //     grandTotal = grandTotal-basePrice
+            // }
                document.getElementById('grandTotal').innerText=grandTotal;
                return basePrice * quantity
            }
@@ -108,6 +135,11 @@
             // document.getElementById('showCartTable').innerHTML=table; 
             
            
+       }
+       function changeCurrency(cur)
+       {
+           var Prices = document.getElementsByName('price').value
+           console.log(Prices)
        }
        function seeProduct() {
            const url = "http://localhost:1220/product"
@@ -120,7 +152,7 @@
                    row += `<tr>
                     <td>${product.name}</td>
                     <td>${product.quantity}</td>
-                    <td>${product.price}</td>
+                    <td name="price" >${product.price}</td>
                 </tr>`
   
                });
@@ -128,16 +160,19 @@
                 <tr>
                     <th>Product Item</th>
                     <th>Quantity</th>
-                    <th>MRP</th>
-                </tr>
+                    <th>MRP  <select id="curr" onclick ="changeCurrency('document.getElementById('curr').value')">
+                                <option  value="inr">Inr</option>
+                                <option  value="usd">USD</option>
+                                <option  value="euro">Euro</option>
+                            </select> </th>
+                    </tr>
                 ${row}
-            </table>`
+                </table>`
             document.getElementById('showProductTable').innerHTML=table
                console.log(data)
            })
 
            console.log("See Product") 
-
 
        } 
        function searchProduct() { 
@@ -166,9 +201,9 @@
              
             table =`<table>
                 <tr>
-                    <th>Product Item</th>
-                    <th>Quantity</th>
-                    <th>MRP</th>
+                    <th> Item </th>
+                    <th> Quantity </th>
+                    <th> MRP </th>
                     <th> Total </th>
                 </tr>
                 ${row}
@@ -177,7 +212,8 @@
             document.getElementById('showProductTable').innerHTML=table
            })
 
-       }
+       } 
+
     //    let cartItem = 0
        function addProductToCart() {
            let url = 'http://localhost:1220/cart/addItem'
