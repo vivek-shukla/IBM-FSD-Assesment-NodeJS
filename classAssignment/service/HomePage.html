@@ -138,8 +138,22 @@
        }
        function changeCurrency(cur)
        {
-           var Prices = document.getElementsByName('price').value
+           var Prices = document.getElementsByName('price')
            console.log(Prices)
+           console.log(Prices[0].innerText)
+           Prices.forEach(price=>{ 
+
+              if(cur=="usd") {
+                var mrp = parseInt(price.innerText)
+                mrp = mrp / 60 
+                price.innerText = mrp
+              }
+              if(cur=="euro") {
+                var mrp = parseInt(price.innerText)
+                mrp = mrp / 70 
+                price.innerText = mrp
+              }
+           })
        }
        function seeProduct() {
            const url = "http://localhost:1220/product"
@@ -160,7 +174,7 @@
                 <tr>
                     <th>Product Item</th>
                     <th>Quantity</th>
-                    <th>MRP  <select id="curr" onclick ="changeCurrency('document.getElementById('curr').value')">
+                    <th>MRP  <select id="curr" onclick ="changeCurrency(document.getElementById('curr').value)">
                                 <option  value="inr">Inr</option>
                                 <option  value="usd">USD</option>
                                 <option  value="euro">Euro</option>
