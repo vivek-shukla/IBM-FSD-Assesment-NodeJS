@@ -6,8 +6,8 @@ class Product {
     }
      getAllProduct() {
          return this.productDatabase
-     }
-     addProduct(product) {
+     } 
+     addProduct(product) { 
          this.productDatabase.push(product)
          return this.productDatabase
      }
